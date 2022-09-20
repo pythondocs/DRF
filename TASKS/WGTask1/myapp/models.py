@@ -22,19 +22,19 @@ class Cinema(models.Model):
     number_of_screen = models.IntegerField()
 
 class Screen(models.Model):
-    screen= models.CharField(max_length=100)
-    cinema= models.ForeignKey(Cinema, on_delete=models.CASCADE)
+    screen = models.CharField(max_length=100)
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
 
 class MovieRun(models.Model):
     start_time = models.TimeField()
-    end_time=models.TimeField()
-    screen= models.ForeignKey(Screen, on_delete=models.CASCADE)
-    movies= models.ForeignKey(Movies, on_delete=models.CASCADE)
+    end_time = models.TimeField()
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
+    movies = models.ForeignKey(Movies, on_delete=models.CASCADE)
 
 class Actor(models.Model):
-    actor_name=models.CharField(max_length=100)
+    actor_name = models.CharField(max_length=100)
 
 class MovieCast(models.Model):
-    character_name=models.CharField(max_length=100)
+    character_name = models.CharField(max_length=100)
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE) 
-    movies= models.ForeignKey(Movies, on_delete=models.CASCADE)
+    movies = models.ForeignKey(Movies, on_delete=models.CASCADE)
