@@ -1,13 +1,13 @@
 
 from django.contrib import admin
-from .models import User, Movies, Cinema, Screen, MovieRun, Actor, MovieCast
+from .models import User, Movie, Cinema, Screen, MovieRun, Actor, MovieCast
 
 # Register your models here.
 @admin.register(User)
 class AdminUser(admin.ModelAdmin):
     list_display = ['username','password','email','role']
 
-@admin.register(Movies)
+@admin.register(Movie)
 class AdminMovies(admin.ModelAdmin):
     list_display= ['movie', 'release_date','durations']
 
