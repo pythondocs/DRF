@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import User, Movies, Cinema, Screen, Movie_Run, Actor, Movie_Cast
+from .models import User, Movies, Cinema, Screen, MovieRun, Actor, MovieCast
 
 # Register your models here.
 @admin.register(User)
@@ -19,16 +19,16 @@ class AdminCinema(admin.ModelAdmin):
 class AdminScreen(admin.ModelAdmin):
     list_display= ['screen', 'cinema']
 
-@admin.register(Movie_Run)
-class AdminMovie_Run(admin.ModelAdmin):
+@admin.register(MovieRun)
+class AdminMovieRun(admin.ModelAdmin):
     list_display= ['start_time', 'end_time', 'screen', 'movies']
 
 @admin.register(Actor)
 class AdminActor(admin.ModelAdmin):
     list_display= ['actor_name']
 
-@admin.register(Movie_Cast)
-class AdminMovie_Cast(admin.ModelAdmin):
+@admin.register(MovieCast)
+class AdminMovieCast(admin.ModelAdmin):
     list_display= ['character_name', 'movies', 'actor']
 
 

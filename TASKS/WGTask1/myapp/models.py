@@ -25,7 +25,7 @@ class Screen(models.Model):
     screen= models.CharField(max_length=100)
     cinema= models.ForeignKey(Cinema, on_delete=models.CASCADE)
 
-class Movie_Run(models.Model):
+class MovieRun(models.Model):
     start_time = models.TimeField()
     end_time=models.TimeField()
     screen= models.ForeignKey(Screen, on_delete=models.CASCADE)
@@ -34,7 +34,7 @@ class Movie_Run(models.Model):
 class Actor(models.Model):
     actor_name=models.CharField(max_length=100)
 
-class Movie_Cast(models.Model):
+class MovieCast(models.Model):
     character_name=models.CharField(max_length=100)
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE) 
     movies= models.ForeignKey(Movies, on_delete=models.CASCADE)
