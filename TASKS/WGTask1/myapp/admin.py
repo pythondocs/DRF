@@ -8,7 +8,7 @@ class AdminUser(admin.ModelAdmin):
     list_display = ['username','password','email','role']
 
 @admin.register(Movies)
-class AdminMovie_s(admin.ModelAdmin):
+class AdminMovies(admin.ModelAdmin):
     list_display= ['movie', 'release_date','durations']
 
 @admin.register(Cinema)
