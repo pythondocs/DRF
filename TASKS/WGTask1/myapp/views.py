@@ -2,11 +2,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from myapp.models import User, Movie, Actor
+from myapp.models import Movie, Actor
 from myapp.serializers import UserRegistrationSerializer, UserLoginSerializer, MovieSerializer, UserProfileSerializer, ActorSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import LimitOffsetPagination
 from myapp.mypaginations import MyPageNumberPagination
 
 # Create your views here.
@@ -45,13 +44,10 @@ class UserLoginView(APIView):
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
-        # user = User.objects.get(request.data)
         serializer = UserProfileSerializer(request.data)
         return Response(serializer.data)
         
 class MovieView(APIView):
-    # pagination_class =  LimitOffsetPagination
-
     def get(self, request, fromat=None):
         movie = Movie.objects.all()
         paginator= MyPageNumberPagination()
