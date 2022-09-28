@@ -6,6 +6,8 @@ from myapp.models import User, Movie, Actor
 from myapp.serializers import UserRegistrationSerializer, UserLoginSerializer, MovieSerializer, UserProfileSerializer, ActorSerializer
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import LimitOffsetPagination
+from myapp.mypaginations import MyPageNumberPagination
 
 # Create your views here.
 def get_tokens_for_user(user):
@@ -48,9 +50,13 @@ class UserProfileView(APIView):
         return Response(serializer.data)
         
 class MovieView(APIView):
+    # pagination_class =  LimitOffsetPagination
+
     def get(self, request, fromat=None):
         movie = Movie.objects.all()
-        serializer = MovieSerializer(movie, many=True)
+        paginator= MyPageNumberPagination()
+        result_page= paginator.paginate_queryset(movie, request)
+        serializer = MovieSerializer(result_page, many=True, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):

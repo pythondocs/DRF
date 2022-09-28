@@ -30,7 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ['movie', 'release_date', 'durations']
+        fields = ['id', 'movie', 'release_date', 'durations']
     
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
