@@ -1,35 +1,36 @@
 
 from django.contrib import admin
-from .models import User, Movie, Cinema, Screen, MovieRun, Actor, MovieCast
+from myapp.models import User, Movie, Cinema, Screen, MovieRun, Actor, MovieCast
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-# Register your models here.
-@admin.register(User)
-class AdminUser(admin.ModelAdmin):
-    list_display = ['username','password','email','role']
+class UserModelAdmin(BaseUserAdmin):
+    list_display = ('id', 'username', 'name', 'email', 'role', 'is_admin')
+    list_filter = ('is_admin',)
+    fieldsets = (
+        ('User Credential', {'fields': ('username', 'password',)}),
+        ('Personal info', {'fields': ( 'name', 'email', 'role',)}),
+        ('Permissions', {'fields': ('is_admin',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'name', 'email', 'role', 'password1'),
+        }),
+    )
+    search_fields = ('username', 'email')
+    ordering = ('id', 'username')
+    filter_horizontal = ()
+admin.site.register(User, UserModelAdmin)
 
-@admin.register(Movie)
-class AdminMovies(admin.ModelAdmin):
-    list_display= ['movie', 'release_date','durations']
+class MovieAdmin(admin.ModelAdmin):
+    list_display = ('id','movie', 'release_date', 'durations', 'created_at', 'updated_at')
+admin.site.register(Movie, MovieAdmin)
 
-@admin.register(Cinema)
-class AdminCinema(admin.ModelAdmin):
-    list_display= ['cinema_name', 'address', 'number_of_screen']
+class ActorAdmin(admin.ModelAdmin):
+    list_display = ('id','actor_name', 'created_at', 'updated_at')
+admin.site.register(Actor, ActorAdmin)
 
-@admin.register(Screen)
-class AdminScreen(admin.ModelAdmin):
-    list_display= ['screen', 'cinema']
-
-@admin.register(MovieRun)
-class AdminMovieRun(admin.ModelAdmin):
-    list_display= ['start_time', 'end_time', 'screen', 'movies']
-
-@admin.register(Actor)
-class AdminActor(admin.ModelAdmin):
-    list_display= ['actor_name']
-
-@admin.register(MovieCast)
-class AdminMovieCast(admin.ModelAdmin):
-    list_display= ['character_name', 'movies', 'actor']
-
-
-
+admin.site.register(Cinema)
+admin.site.register(Screen)
+admin.site.register(MovieRun)
+admin.site.register(MovieCast)
