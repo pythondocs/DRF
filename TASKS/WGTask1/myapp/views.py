@@ -7,6 +7,7 @@ from myapp.serializers import UserRegistrationSerializer, UserLoginSerializer, M
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from myapp.mypaginations import MyPageNumberPagination
+from rest_framework.generics import ListAPIView
 
 # Create your views here.
 def get_tokens_for_user(user):
@@ -46,15 +47,9 @@ class UserProfileView(APIView):
     def get(self, request, format=None):
         serializer = UserProfileSerializer(request.data)
         return Response(serializer.data)
-        
-class MovieView(APIView):
-    def get(self, request, fromat=None):
-        movie = Movie.objects.all()
-        paginator= MyPageNumberPagination()
-        result_page= paginator.paginate_queryset(movie, request)
-        serializer = MovieSerializer(result_page, many=True, context={'request':request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
+# RegisterAPI of Movie's
+class MovieView(APIView):
     def post(self, request, format=None):
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
@@ -62,13 +57,14 @@ class MovieView(APIView):
             return Response({'msg':'Movie Register!!'}, status=status.HTTP_201_CREATED) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# ListAPI of Movie's
+class MovieListView(ListAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    pagination_class = MyPageNumberPagination
 
+# RegisterAPI of Actor's
 class ActorView(APIView):
-    def get(self, request, fromat=None):
-        actor = Actor.objects.all()
-        serializer = ActorSerializer(actor, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     def post(self, request, format=None):
         serializer = ActorSerializer(data=request.data)
         if serializer.is_valid():

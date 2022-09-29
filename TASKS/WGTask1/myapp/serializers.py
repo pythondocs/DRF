@@ -8,13 +8,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         extra_kwargs={
             'password':{'write_only':True}
         }
-
-        def validate(self, attrs):
-            attrs.get('password')
-            return attrs
         
-        def create(self, validate_data):
-            return User.objects.create_user(**validate_data)
+    def validate(self, attrs):
+        attrs.get('password')
+        return attrs
+        
+    def create(self, validate_data):
+        return User.objects.create_user(**validate_data)
 
 class UserLoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=100)

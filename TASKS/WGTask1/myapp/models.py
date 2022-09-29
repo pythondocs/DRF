@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
         if not username:
             raise ValueError('Users must have an Username')
         user = self.model(username=username, name=name, email=email, role=role)
-        user.has_password(password)
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
