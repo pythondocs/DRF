@@ -8,7 +8,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         extra_kwargs={
             'password':{'write_only':True}
         }
-        
+
     def validate(self, attrs):
         attrs.get('password')
         return attrs

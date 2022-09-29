@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from myapp.mypaginations import MyPageNumberPagination
 from rest_framework.generics import ListAPIView
-
+from rest_framework.filters import SearchFilter
+from myapp.renderers import UserRenderer
 # Create your views here.
 def get_tokens_for_user(user):
     refresh= RefreshToken.for_user(user)
@@ -19,6 +20,7 @@ def get_tokens_for_user(user):
     }
 
 class UserRegistrationView(APIView):
+    renderer_classes = [UserRenderer]
     def post(self, request, format=None):
         serializer = UserRegistrationSerializer(data= request.data)
         if serializer.is_valid(raise_exception=True):
@@ -29,6 +31,7 @@ class UserRegistrationView(APIView):
 
 
 class UserLoginView(APIView):
+    renderer_classes = [UserRenderer]
     def post(self, request, format=None):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -43,10 +46,11 @@ class UserLoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 class UserProfileView(APIView):
+    renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
-        serializer = UserProfileSerializer(request.data)
-        return Response(serializer.data)
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 # RegisterAPI of Movie's
 class MovieView(APIView):
@@ -62,6 +66,8 @@ class MovieListView(ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     pagination_class = MyPageNumberPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['movie']
 
 # RegisterAPI of Actor's
 class ActorView(APIView):
@@ -71,3 +77,11 @@ class ActorView(APIView):
             serializer.save()
             return Response({'msg':'Actor Register!!'}, status=status.HTTP_201_CREATED) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# ListAPI of Actors's
+class ActorListView(ListAPIView):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['actor_name']
