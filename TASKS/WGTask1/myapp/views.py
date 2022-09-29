@@ -90,9 +90,9 @@ class ActorListView(ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ['actor_name']
 
-# User Change Password APIView
-class UserChangePasswordView(APIView):
-    renderer_classes = [UserRenderer]
-    permission_classes = [IsAuthenticated]
-    def post(self, request, format=None):
-        serializer = UserChangePasswordSerializer(data = request.data)
+# # User Change Password APIView
+# class UserChangePasswordView(APIView):
+#     renderer_classes = [UserRenderer]
+#     permission_classes = [IsAuthenticated]
+#     def post(self, request, format=None):
+#         serializer = UserChangePasswordSerializer(data = request.data)

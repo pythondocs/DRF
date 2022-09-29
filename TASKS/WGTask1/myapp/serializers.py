@@ -39,9 +39,9 @@ class ActorSerializer(serializers.ModelSerializer):
         model = Actor
         fields = ['actor_name']
 
-class UserChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=255, write_only=True)
-    class Meta:
-        model = User
-        fields = []
+# class UserChangePasswordSerializer(serializers.ModelSerializer):
+#     password = serializers.CharField(max_length=255, write_only=True)
+#     class Meta:
+#         model = User
+#         fields = []
     
