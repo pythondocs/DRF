@@ -1,3 +1,5 @@
+from dataclasses import field
+from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 from myapp.models import User, Movie, Actor
 
@@ -36,4 +38,10 @@ class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
         fields = ['actor_name']
+
+class UserChangePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=255, write_only=True)
+    class Meta:
+        model = User
+        fields = []
     
