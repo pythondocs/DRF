@@ -1,12 +1,5 @@
-from dataclasses import field
-from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 from myapp.models import User, Movie, Actor
-
-class UserRegistrationS(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'name', 'role', 'password']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
