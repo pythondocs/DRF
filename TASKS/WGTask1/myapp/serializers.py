@@ -3,6 +3,11 @@ from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 from myapp.models import User, Movie, Actor
 
+class UserRegistrationS(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'name', 'role', 'password']
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -27,7 +32,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'name', 'email', 'role']
+        fields = ['name', 'email', 'role']
 
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,9 +44,4 @@ class ActorSerializer(serializers.ModelSerializer):
         model = Actor
         fields = ['actor_name']
 
-# class UserChangePasswordSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(max_length=255, write_only=True)
-#     class Meta:
-#         model = User
-#         fields = []
     
