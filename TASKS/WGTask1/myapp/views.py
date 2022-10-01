@@ -43,7 +43,7 @@ class UserLoginView(APIView):
             user= authenticate(username=username, password=password)
             token = get_tokens_for_user(user)
             if user is not None:
-                return Response({'token':token,'msg':'Login Success'}, status=status.HTTP_200_OK) 
+                return Response({'token':token,'msg':'Login Successfully'}, status=status.HTTP_200_OK) 
             else:
                 return Response({'errors':{'non_field_errors':['Username or Password is not Valid']}}, status=status.HTTP_404_NOT_FOUND) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
@@ -55,7 +55,7 @@ class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, fornamt=None):
         serializer = UserProfileSerializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'msg':'Login User Data'},serializer.data, status=status.HTTP_200_OK)
 
 class UserProfileViewG(RetrieveAPIView):
     queryset = User.objects.all()
@@ -63,7 +63,6 @@ class UserProfileViewG(RetrieveAPIView):
     renderer_classes = [UserRenderer]
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
 
 # RegisterAPI & ListAPI of Movie with Pagination & Search By Movie Name
 class MovieView(ListCreateAPIView):
