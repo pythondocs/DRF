@@ -21,7 +21,6 @@ def get_tokens_for_user(user):
         'refresh' : str(refresh),
         'access' : str(refresh.access_token)
     }
-
 # User Registration API
 class UserRegistrationView(APIView):
     renderer_classes = [UserRenderer]
@@ -64,29 +63,26 @@ class UserProfileViewG(RetrieveAPIView):
     renderer_classes = [UserRenderer]
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    
+
 
 # RegisterAPI & ListAPI of Movie with Pagination & Search By Movie Name
 class MovieView(ListCreateAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
-    pagination_class = MyPageNumberPagination
+    renderer_classes = [UserRenderer]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    pagination_class = [MyPageNumberPagination]
     filter_backends = [SearchFilter]
     search_fields = ['movie']
 
 # RegisterAPI & ListAPI of Actor with Pagination & Search By Movie Name
 class ActorView(ListCreateAPIView):
     queryset = Actor.objects.all()
-    serializer_class = ActorSerializer
-    pagination_class = MyPageNumberPagination
+    serializer_class = ActorSerializer    
+    renderer_classes = [UserRenderer]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    pagination_class = [MyPageNumberPagination]
     filter_backends = [SearchFilter]
     search_fields = ['actor_name']
-
-# # User Profile View API
-# class UserProfileView(RetrieveAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserProfileSerializer
-#     authentication_classes = JWTAuthentication
-#     permission_classes = IsAuthenticated
