@@ -1,11 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
-# Create your models here.
-CATEGORY_CHOICES = (
-    ('Manager', 'Manager'),
-    ('Viewer', 'Viewer'),
-)
+# Custom User Manager
 class UserManager(BaseUserManager):
     def create_user(self, username, email, name, role, password=None, password2=None):
         """
@@ -13,7 +9,12 @@ class UserManager(BaseUserManager):
         """
         if not username:
             raise ValueError('Users must have an Username')
-        user = self.model(username=username, name=name, email=email, role=role)
+        user = self.model(
+            username=username, 
+            name=name, 
+            email=email, 
+            role=role
+        )
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -26,6 +27,11 @@ class UserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
+
+CATEGORY_CHOICES = (
+    ('Manager', 'Manager'),
+    ('Viewer', 'Viewer'),
+)
 
 class User(AbstractBaseUser):
     username = models.CharField(verbose_name= 'username', max_length=100, unique=True)
@@ -90,14 +96,6 @@ class Screen(models.Model):
     def __str__(self):
         return self.screen
 
-class MovieRun(models.Model):
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
-    movies = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
 class Actor(models.Model):
     actor_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -109,6 +107,14 @@ class Actor(models.Model):
 class MovieCast(models.Model):
     character_name = models.CharField(max_length=100)
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE) 
+    movies = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class MovieRun(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     movies = models.ForeignKey(Movie, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
